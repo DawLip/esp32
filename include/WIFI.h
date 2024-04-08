@@ -1,6 +1,7 @@
 #include <WiFi.h>
 
-#define WIFI_SSID     "Ryb&Lip"
-#define WIFI_PASSWORD "Kebabowo219"
+extern String WIFI_SSID;
+extern String WIFI_PASSWORD;
 
 void wifi_init();
+void permission_request(bool isPIN);
