@@ -28,7 +28,8 @@ void keyboardMode0(int x){
   }else if (x == 2) {
     selectedWifi += 1;
   } else if (x == 10) { 
-    WIFI_SSID = WiFi.RSSI(selectedWifi);
+    WIFI_SSID = WiFi.SSID(selectedWifi);
+    save_auch_data();
     change_mode(2);
   }
 }
@@ -45,12 +46,20 @@ void keyboardMode1(int x){
 
 int prev_num = -1;
 int num=-1;
-String txt[] = {" ", "1","2aAbBcC","3dDeEfF","4gGhHiI", "5jJkKlL", "6mMnNoO", "7pPqQrRsS", "8tTuUvV", "9wWxXyYzZ"};
+String txt[] = {"0 ", "1","2aAbBcC","3dDeEfF","4gGhHiI", "5jJkKlL", "6mMnNoO", "7pPqQrRsS", "8tTuUvV", "9wWxXyYzZ"};
 void keyboardMode2(int x){
   if (x == 11) {
-    PIN = "";
+    PIN.remove(PIN.length()-1);
   } else if (x == 10) { 
-    //accept password
+    WIFI_PASSWORD = PIN;
+    save_auch_data();
+    PIN = "";
+    if(wifi_init()){
+      change_mode(1);
+    }else{
+      change_mode(0);
+    }
+    
   } else {
     if(prev_num==x){
       num += 1;
@@ -61,9 +70,7 @@ void keyboardMode2(int x){
       num = 0;
       PIN += String(x);
     }
-    // PIN += String(x);
   }
-  Serial.println(PIN);
 }
 
 void keybordRead(){

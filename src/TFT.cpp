@@ -7,13 +7,8 @@ String PIN = "";
 unsigned long tft_access_status_rst = millis();
 unsigned long tft_time = millis();
 int selectedWifi = 0;
-/*
-mode:
-0 => configure WIFI_SSID mode
-1 => work mode
-2 => configure WIFI_PASSWORD mode
-*/
-int mode = 1;
+int currWifi=-100;
+int n = -5;
 
 void tft_init(){
   myGLCD.init();
@@ -23,7 +18,7 @@ void tft_init(){
   myGLCD.setTextColor(TFT_WHITE, TFT_BLACK);
   myGLCD.setTextSize(1);
 
-  change_mode(0);
+  if (mode == MODE_WORK) tft_pin_update();
 }
 
 void change_mode(int newMode){
@@ -31,8 +26,15 @@ void change_mode(int newMode){
   myGLCD.fillScreen(TFT_BLACK);
   switch (mode){
     case 0:
+      selectedWifi = 0;
+      currWifi=-100;
+      n = -5;
+      WIFI_PASSWORD = "";
+      WIFI_SSID = "";
       break;
     case 1:
+      Serial.println("MODE_WORK INICIALIZE");
+
       myGLCD.drawString("Enter your PIN:", 40, 90, 4);
       tft_pin_update();
       break;
@@ -45,19 +47,21 @@ void tft_mode2_update(unsigned long curr_time){
 
 }
 
-int currWifi=-100;
-int n = -1;
 void tft_mode0_update(unsigned long curr_time){
   if(currWifi==selectedWifi){return;}
-  if(n==-1){n=WiFi.scanNetworks();}
-
+  WiFi.mode(WIFI_STA);
+  if(n==-5 or n==-2){n=WiFi.scanNetworks();}
   // myGLCD.fillScreen(TFT_BLACK);
+  Serial.print("scanNetworks: <");
+  Serial.println((String)n+">");
   myGLCD.drawString("WiFi networks:", 8, 8, 4);
-
   if (n == 0) {
       myGLCD.drawString("Networks not found :(", 8, 8+28, 4);
   } else {
+    Serial.println("\n\nNetworks:");
     for (int i = 0; i < n; ++i) {
+      Serial.print(">");
+      Serial.println(WiFi.SSID(i));
       if(selectedWifi==i){
         myGLCD.setTextColor(TFT_RED, TFT_BLACK);
         myGLCD.drawString("=>", 16, 8+28+(18*i), 2);
@@ -136,6 +140,7 @@ String format_time() {
 }
 
 void tft_pin_update(){
+  Serial.println("PIN UPDATE");
   myGLCD.fillRect(26, 136, 200, 32, TFT_BLACK);
 
   for(int i=0; i<4; i++){
