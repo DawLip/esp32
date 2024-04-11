@@ -76,11 +76,11 @@ void keyboardMode2(int x){
 void keybordRead(){
   int analog_read = analogRead(keyboard_pin);
   int x = keyboard_analog_handle(analog_read);
-
   if (x == -1) {
     is_keyboard_relased = true;
   } else if (is_keyboard_relased) {
     is_keyboard_relased = false;
+    Serial.println(x);
 
     if(mode==1){keyboardMode1(x);}
     else if(mode==0){keyboardMode0(x);}
