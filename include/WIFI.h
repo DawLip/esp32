@@ -1,3 +1,6 @@
+#ifndef WIFI_H
+#define WIFI_H
+
 #include <WiFi.h>
 #include <EEPROM.h>
 #include "Time.h"
@@ -11,3 +14,5 @@ void permission_request(bool isPIN);
 
 void read_auch_data();
 void save_auch_data();
+
+#endif

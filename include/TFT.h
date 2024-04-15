@@ -1,3 +1,6 @@
+#ifndef TFT_H
+#define TFT_H
+
 #include <TFT_eSPI.h>
 
 #define TFT_GREY 0x7BEF
@@ -16,3 +19,5 @@ void tft_access_denied();
 
 void tft_overlay(uint16_t color);
 void change_mode(int newMode);
+
+#endif

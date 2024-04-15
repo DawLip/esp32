@@ -1,3 +1,6 @@
+#ifndef RFID_H
+#define RFID_H
+
 #include <SPI.h>
 #include <MFRC522.h>
 #define RC522_SS_PIN  5 
@@ -8,3 +11,5 @@ extern MFRC522 rfid;
 void rfid_init();
 unsigned int rfid_read();
 unsigned int rfid_getCardID();
+
+#endif

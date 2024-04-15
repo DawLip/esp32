@@ -1,3 +1,6 @@
+#ifndef MAIN_H
+#define MAIN_H
+
 #include <Arduino.h>
 
 // UTILS
@@ -10,5 +13,7 @@
 //SOC
 #include "soc/soc.h"
 #include "soc/rtc_cntl_reg.h"
+
+#endif
 
 

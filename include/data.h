@@ -1,3 +1,6 @@
+#ifndef DATA_H
+#define DATA_H
+
 #include <Arduino.h>
 
 #define MODE_CONF_SSID 0
@@ -13,3 +16,5 @@ extern bool is_keyboard_relased;
 extern int accessStatus;
 
 extern int mode;
+
+#endif
