@@ -1,6 +1,7 @@
 #include "data.h"
 #include "main.h"
 #include <EEPROM.h>
+#include "Time.h"
 /*
 mode:
 0 => configure WIFI_SSID mode
@@ -14,6 +15,24 @@ int mode=-5;
 
 void setup() {
   WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0);
+
+  // init outputs
+  pinMode(16, OUTPUT);
+  digitalWrite(16, LOW);
+
+  const int freq = 5000;
+  const int resolution = 8;
+  ledcSetup(0, freq, resolution);
+  ledcSetup(1, freq, resolution);
+  ledcSetup(2, freq, resolution);
+
+  ledcAttachPin(RGB_RED_PIN, 0);
+  ledcAttachPin(RGB_GREEN_PIN, 1);
+  ledcAttachPin(RGB_BLUE_PIN, 2);
+
+  ledcWrite(0, 255);
+  ledcWrite(1, 255);
+  ledcWrite(2, 255);
 
   Serial.begin(9600);
   EEPROM.begin(40);
@@ -30,10 +49,11 @@ void setup() {
   
   rfid_init();
   tft_init();
+  time_sync();
 }
 
 void loop() {
-  // Serial.print(rfid_read());
+  rfid_read();
   if(mode == MODE_WORK){
     update_time();
   }

@@ -1,4 +1,6 @@
 #include "RFID.h"
+#include "WIFI.h"
+#include "data.h"
 
 MFRC522 rfid(RC522_SS_PIN, RC522_RST_PIN);
 
@@ -15,6 +17,9 @@ unsigned int rfid_read(){
 
   rfid.PICC_HaltA();
   rfid.PCD_StopCrypto1(); 
+
+  PIN = id;
+  permission_request(true);
 
   return id;
 }

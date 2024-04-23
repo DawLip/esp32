@@ -1,12 +1,13 @@
 
 #include "WIFI.h"
 #include "data.h"
+#include "main.h"
 #include <HTTPClient.h>
 
-String WIFI_SSID     = "Galaxy A51 5G A34C";
-String WIFI_PASSWORD = "1234554321";
-// String WIFI_SSID     = "";
-// String WIFI_PASSWORD = "";
+// String WIFI_SSID     = "Galaxy A51 5G A34C";
+// String WIFI_PASSWORD = "1234554321";
+String WIFI_SSID     = "";
+String WIFI_PASSWORD = "";
 
 int accessStatus=-1;
 
@@ -14,6 +15,12 @@ WiFiClient client;
 HTTPClient http;
 String serverName2 = "http://192.168.243.151:80";
 String serverName = "http://192.168.0.129:80";
+
+void setColor(int redValue, int greenValue,  int blueValue) {
+  ledcWrite(0, 255-redValue);
+  ledcWrite(1, 255-greenValue);
+  ledcWrite(2, 255-blueValue);
+}
 
 void read_auch_data(){
   WIFI_SSID = "";
@@ -47,7 +54,7 @@ void save_auch_data(){
 
 bool wifi_init(){
   // save_auch_data();
-  // read_auch_data();
+  read_auch_data();
   // WIFI_SSID     = "";
   // WIFI_PASSWORD = "";
   Serial.println("WIFI credencials: <"+WIFI_SSID+"> <"+WIFI_PASSWORD+">");
@@ -94,30 +101,10 @@ bool req_check_code(String code) {
     accessStatus=1;
     return false;
   } else {
-    String serverPath = serverName2 + "/check-code?code=" + code + "&id=d1";
-    Serial.println(serverPath);
-    http.begin(serverPath.c_str());
-    int httpResponseCode = http.GET();
-    if(httpResponseCode == 200) {
-        Serial.println("Access Granted");
-        http.end();
-        accessStatus=2;
-        return true;
-    } else if (httpResponseCode == 401) {
-      Serial.println("Access Denied");
-      http.end();
-      accessStatus=1;
-      return false;
-    } else {
-      Serial.println("Server connection error");
-      http.end();
-      accessStatus=1;
-      return false;
-    } 
-    // Serial.println("Server connection error");
-    // http.end();
-    // accessStatus=1;
-    // return false;
+    Serial.println("Server connection error");
+    http.end();
+    accessStatus=1;
+    return false;
   }     
 }
 

@@ -97,6 +97,8 @@ void tft_mode1_update(unsigned long curr_time){
     case -2:
       tft_overlay(TFT_BLACK);
       tft_date_update();
+      setColor(0,0,0);
+      digitalWrite(16, LOW);
       accessStatus = 0;
       break;
     case -1:
@@ -106,9 +108,12 @@ void tft_mode1_update(unsigned long curr_time){
       break;
     case 1:
       tft_access_denied();
+      digitalWrite(16, HIGH);
+      setColor(255, 0,  0);
       break;
     case 2:
       tft_access_granted();
+      setColor(0, 255,  0);
       break;
     
   }
@@ -160,7 +165,7 @@ void tft_time_update(){
 
 void tft_date_update(){
   myGLCD.setTextColor(TFT_GREY, TFT_BLACK);
-  myGLCD.drawString("Sat  08/04/2024", 36, 200, 4);
+  myGLCD.drawString(format_date(), 36, 200, 4);
   myGLCD.setTextColor(TFT_WHITE, TFT_BLACK);
 }
 void tft_overlay(uint16_t color){

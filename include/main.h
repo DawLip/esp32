@@ -14,6 +14,11 @@
 #include "soc/soc.h"
 #include "soc/rtc_cntl_reg.h"
 
+// Pins
+#define RGB_RED_PIN 32
+#define RGB_GREEN_PIN 22
+#define RGB_BLUE_PIN 21
+
 #endif
 
 

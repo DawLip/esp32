@@ -14,5 +14,6 @@ void permission_request(bool isPIN);
 
 void read_auch_data();
 void save_auch_data();
+void setColor(int, int, int);
 
 #endif
