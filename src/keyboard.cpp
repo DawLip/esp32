@@ -38,7 +38,7 @@ void keyboardMode1(int x){
     PIN = "";
   } else if (x == 10) { 
     permission_request(true);
-  } else {
+  } else if(PIN.length()<4) {
     PIN += String(x);
   }
   tft_pin_update();
