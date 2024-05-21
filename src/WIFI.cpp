@@ -13,7 +13,7 @@ int accessStatus=-1;
 
 WiFiClient client;
 HTTPClient http;
-String serverName2 = "http://192.168.243.151:80";
+// String serverName = "http://192.168.0.4:80";
 String serverName = "http://192.168.0.129:80";
 
 void setColor(int redValue, int greenValue,  int blueValue) {
@@ -85,9 +85,14 @@ bool wifi_init(){
   return true;
 }
 
-bool req_check_code(String code) {
-  String serverPath = serverName + "/check-code?code=" + code + "&id=d1";
+bool req_check_code(String id) {
+  String serverPath="";
+
+  if (id.length()>0 && PIN.length()>0){serverPath = serverName + "/check-card-and-code?code="+PIN+"&card="+id+"&id=d1";}
+  else if(PIN.length()>0)             {serverPath = serverName + "/check-code?code=" + PIN + "&id=d1";}
+  else                                {serverPath = serverName + "/check-code?code=" + id  + "&id=d1";}
   Serial.println(serverPath);
+
   http.begin(serverPath.c_str());
   int httpResponseCode = http.GET();
   if(httpResponseCode == 200) {
@@ -108,8 +113,9 @@ bool req_check_code(String code) {
   }     
 }
 
-void permission_request(bool isPIN){
-  req_check_code(PIN);
+void permission_request(String id){
+  req_check_code(id);
 
   PIN="";
+  tft_pin_update();
 };

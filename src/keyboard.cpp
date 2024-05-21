@@ -37,7 +37,12 @@ void keyboardMode1(int x){
   if (x == 11) {
     PIN = "";
   } else if (x == 10) { 
-    permission_request(true);
+    if (PIN.length() == 4){
+      permission_request();
+    } else {
+      accessStatus=1;
+      PIN="";
+    }
   } else if(PIN.length()<4) {
     PIN += String(x);
   }

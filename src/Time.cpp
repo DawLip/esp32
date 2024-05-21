@@ -64,7 +64,8 @@ void update_time() {
 void time_init(){
   timeClient.begin();
   timeClient.setTimeOffset(7200); // GMT +1 = 3600
-  while(!timeClient.isTimeSet()){
+  unsigned long t = millis();
+  while(!timeClient.isTimeSet() && ((unsigned long) millis()-t<5000)){
     timeClient.update();
   }
   time_hour = timeClient.getHours();

@@ -18,8 +18,7 @@ unsigned int rfid_read(){
   rfid.PICC_HaltA();
   rfid.PCD_StopCrypto1(); 
 
-  PIN = id;
-  permission_request(true);
+  permission_request(String(id));
 
   return id;
 }
